@@ -1,4 +1,5 @@
 import pandas as pd
+import joblib
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -6,30 +7,43 @@ from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, roc_curve
+import matplotlib.pyplot as plt
 
-#loadit cleaned data
-data = pd.read_csv("data/cleaned_data.csv")
+# load cleaned data
+data = pd.read_csv("/home/chaima/Documents/RetentionAI/backend/ml/data/cleaned_data.csv")
 
-# select x and y 
 X = data.drop(columns=['Attrition'])
 y = data['Attrition']
 
+# split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42, stratify=y
 )
 
-# numerical and categorial columns
-numerical_cols = X.select_dtypes(include=['int64','float64']).columns.tolist()
-categorical_cols = X.select_dtypes(include=['object']).columns.tolist()
+# columns
+numcateg_cols = [
+    'Education',
+    'EnvironmentSatisfaction',
+    'JobInvolvement',
+    'JobSatisfaction',
+    'PerformanceRating',
+    'RelationshipSatisfaction',
+    'WorkLifeBalance'
+]
 
-# processing
+num_cols = [col for col in X.select_dtypes(include=['int64','float64']).columns 
+            if col not in numcateg_cols]
+
+cat_cols = X.select_dtypes(include=['object']).columns.tolist() + numcateg_cols
+
+# preprocessing
 preprocessor = ColumnTransformer([
-    ('num', StandardScaler(), numerical_cols),
-    ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), categorical_cols)
+    ('num', StandardScaler(), num_cols),
+    ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), cat_cols)
 ])
 
-# SMOTE (bach n equilibriw data)
+# SMOTE
 smote = SMOTE(random_state=42)
 
 # models
@@ -38,38 +52,39 @@ models = {
     'RandomForest': RandomForestClassifier(random_state=42)
 }
 
-# hyperparameter grids
 param_grids = {
-    'LogisticRegression': {
-        'model__C': [0.1, 1, 10],
-        'model__solver': ['lbfgs']
-    },
-    'RandomForest': {
-        'model__n_estimators': [50, 100],
-        'model__max_depth': [5, 10, None]
-    }
+    'LogisticRegression': {'model__C': [0.1, 1, 10], 'model__solver': ['lbfgs']},
+    'RandomForest': {'model__n_estimators': [50, 100], 'model__max_depth': [5, 10, None]}
 }
 
-# train w evaluate
 for name, model in models.items():
-    print(f"\n=== Training {name} ===")
-    
-    # Pipeline: preprocessing -> SMOTE -> model
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
         ('smote', smote),
         ('model', model)
     ])
     
-    # GridSearchCV
     grid = GridSearchCV(pipeline, param_grids[name], cv=5, scoring='accuracy')
     grid.fit(X_train, y_train)
     
-    # Predictions
     y_pred = grid.predict(X_test)
+    y_prob = grid.predict_proba(X_test)[:,1]  # for ROC
     
-    # Evaluation
-    print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-    print("\nClassification Report:\n", classification_report(y_test, y_pred))
-    print("Best parameters:", grid.best_params_)
-    print("Best CV score:", grid.best_score_)
+    # output evaluation
+    print(f"\nEvaluation - {name}")
+    print("Matrice de confusion:\n", confusion_matrix(y_test, y_pred))
+    print("\nRapport de classification:\n", classification_report(y_test, y_pred))
+    
+    # roc curve
+    fpr, tpr, _ = roc_curve(y_test, y_prob)
+    plt.figure()
+    plt.plot(fpr, tpr, label=f'{name} (AUC = {roc_auc_score(y_test, y_prob):.2f})')
+    plt.plot([0,1], [0,1], 'k--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title(f'Courbe ROC - {name}')
+    plt.legend()
+    plt.show()
+    
+    # save model
+    joblib.dump(grid.best_estimator_, f"{name}_model.pkl")
