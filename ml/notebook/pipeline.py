@@ -7,7 +7,7 @@ from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, roc_curve
+from sklearn.metrics import confusion_matrix, classification_report, f1_score, roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
 
 # load cleaned data
@@ -35,13 +35,15 @@ numcateg_cols = [
 num_cols = [col for col in X.select_dtypes(include=['int64','float64']).columns 
             if col not in numcateg_cols]
 
-cat_cols = X.select_dtypes(include=['object']).columns.tolist() + numcateg_cols
+cat_cols = X.select_dtypes(include=['object']).columns.tolist()
 
 # preprocessing
 preprocessor = ColumnTransformer([
     ('num', StandardScaler(), num_cols),
     ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), cat_cols)
-])
+],
+ remainder='passthrough'
+ )
 
 # SMOTE
 smote = SMOTE(random_state=42)
@@ -74,6 +76,7 @@ for name, model in models.items():
     print(f"\nEvaluation - {name}")
     print("Matrice de confusion:\n", confusion_matrix(y_test, y_pred))
     print("\nRapport de classification:\n", classification_report(y_test, y_pred))
+    print(f"f1-score: {f1_score(y_test, y_pred):.2f}")
     
     # roc curve
     fpr, tpr, _ = roc_curve(y_test, y_prob)
