@@ -7,12 +7,12 @@ from pydantic import BaseModel
 import joblib
 from pathlib import Path
 load_dotenv()
+import pandas as pd
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="RetentionAI Backend")
 
 DbDep = Depends(get_db)
-
 # pydantic models
 
 class UserBase(BaseModel):
@@ -24,22 +24,30 @@ class Token(BaseModel):
     token_type: str
 
 class EmployeeData(BaseModel):
+    employee_id: str 
     Age: int
     BusinessTravel: str
     Department: str
     Education: int
     EducationField: str
     EnvironmentSatisfaction: int
+    Gender: str
+    JobInvolvement: int
+    JobLevel: int
     JobRole: str
+    JobSatisfaction: int
     MaritalStatus: str
     MonthlyIncome: float
-    NumCompaniesWorked: int
     OverTime: str
+    PerformanceRating: int
+    RelationshipSatisfaction: int
+    StockOptionLevel: int
     TotalWorkingYears: int
-    TrainingTimesLastYear: int
+    WorkLifeBalance: int
     YearsAtCompany: int
     YearsInCurrentRole: int
-    YearsSinceLastPromotion: int
+    YearsWithCurrManager: int
+
 
 # endpoints
 @app.post("/register")
@@ -67,3 +75,26 @@ MODEL_PATH = BASE_DIR / "ml" / "notebook" / "LogisticRegression_model.pkl"
 
 model = joblib.load(MODEL_PATH)
 
+@app.post("/predict")
+def predict(employee: EmployeeData,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
+    #prepare ML input
+    data = employee.model_dump()
+    employee_id = data.pop("employee_id")  # not for ML
+    X = pd.DataFrame([data])
+
+    # predict
+    probability = model.predict_proba(X)[0][1]
+
+    # save history
+    history = PredictionHistory(
+        user_id=current_user.id,
+        employee_id=employee_id,
+        probability=float(probability)
+    )
+    db.add(history)
+    db.commit()
+
+    # return result
+    return {
+        "churn_probability": round(probability, 2)
+    }
