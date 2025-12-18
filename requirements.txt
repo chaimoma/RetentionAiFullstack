@@ -10,6 +10,7 @@ python-dotenv
 requests
 pydantic
 pytest
+pytest-mock
 httpx
 google-genai
 pandas
