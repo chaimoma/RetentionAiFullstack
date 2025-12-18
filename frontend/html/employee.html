@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RetentionAI - Employee Risk</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Employee Risk Analysis</h1>
+    <button id="logoutBtn" class="logoutBtn">Logout</button>
+
+    <!-- Step 1 -->
+    <div id="step1" class="step">
+        <h2>Step 1 - Basic Info</h2>
+        <input type="text" id="employee_id" placeholder="Employee ID">
+        <input type="number" id="Age" placeholder="Age">
+        <label>Gender:</label>
+        <select id="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <label>Business Travel:</label>
+        <select id="BusinessTravel">
+            <option value="Non-Travel">Non-Travel</option>
+            <option value="Travel_Rarely">Travel Rarely</option>
+            <option value="Travel_Frequently">Travel Frequently</option>
+        </select>
+        <input type="text" id="Department" placeholder="Department">
+        <input type="text" id="JobRole" placeholder="Job Role">
+        <label>Marital Status:</label>
+        <select id="MaritalStatus">
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+        </select>
+        <label>Over Time:</label>
+        <select id="OverTime">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <div class="buttons">
+            <button id="next1">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="step" style="display:none;">
+        <h2>Step 2 - Satisfaction & Involvement</h2>
+        <label>Education:</label>
+        <select id="Education">
+            <option value="1">1 - Below College</option>
+            <option value="2">2 - College</option>
+            <option value="3">3 - Bachelor</option>
+            <option value="4">4 - Master</option>
+            <option value="5">5 - Doctor</option>
+        </select>
+
+        <input type="text" id="EducationField" placeholder="Education Field">
+
+        <label>Environment Satisfaction:</label>
+        <select id="EnvironmentSatisfaction">
+            <option value="1">1 - Low</option>
+            <option value="2">2 - Medium</option>
+            <option value="3">3 - High</option>
+            <option value="4">4 - Very High</option>
+        </select>
+
+        <label>Job Involvement:</label>
+        <select id="JobInvolvement">
+            <option value="1">1 - Low</option>
+            <option value="2">2 - Medium</option>
+            <option value="3">3 - High</option>
+            <option value="4">4 - Very High</option>
+        </select>
+
+        <label>Job Level:</label>
+        <input type="number" id="JobLevel" placeholder="Job Level">
+
+        <label>Job Satisfaction:</label>
+        <select id="JobSatisfaction">
+            <option value="1">1 - Low</option>
+            <option value="2">2 - Medium</option>
+            <option value="3">3 - High</option>
+            <option value="4">4 - Very High</option>
+        </select>
+
+        <label>Performance Rating:</label>
+        <select id="PerformanceRating">
+            <option value="1">1 - Low</option>
+            <option value="2">2 - Good</option>
+            <option value="3">3 - Excellent</option>
+            <option value="4">4 - Outstanding</option>
+        </select>
+
+        <label>Relationship Satisfaction:</label>
+        <select id="RelationshipSatisfaction">
+            <option value="1">1 - Low</option>
+            <option value="2">2 - Medium</option>
+            <option value="3">3 - High</option>
+            <option value="4">4 - Very High</option>
+        </select>
+
+        <label>Work-Life Balance:</label>
+        <select id="WorkLifeBalance">
+            <option value="1">1 - Bad</option>
+            <option value="2">2 - Good</option>
+            <option value="3">3 - Better</option>
+            <option value="4">4 - Best</option>
+        </select>
+
+        <div class="buttons">
+            <button id="back2">Back</button>
+            <button id="next2">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="step" style="display:none;">
+        <h2>Step 3 - Work Experience & Stock</h2>
+        <input type="number" id="MonthlyIncome" placeholder="Monthly Income">
+        <input type="number" id="TotalWorkingYears" placeholder="Total Working Years">
+        <input type="number" id="YearsAtCompany" placeholder="Years at Company">
+        <input type="number" id="YearsInCurrentRole" placeholder="Years in Current Role">
+        <input type="number" id="YearsWithCurrManager" placeholder="Years with Current Manager">
+        <label>Stock Option Level:</label>
+        <select id="StockOptionLevel">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+        <div class="buttons">
+            <button id="back3">Back</button>
+            <button id="predictBtn">Predict Risk</button>
+        </div>
+    </div>
+
+    <div id="result" class="result" style="display:none;">
+        <h2>Churn Probability:</h2>
+        <p id="churnProbability"></p>
+        <h3>Retention Plan:</h3>
+        <ul id="retentionPlan"></ul>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/employee.js"></script>
+</body>
+</html>
