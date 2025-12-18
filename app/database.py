@@ -13,7 +13,7 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 Base = declarative_base()
-# Tables
+# tables
 class User(Base):
     __tablename__ = "users"
 

@@ -21,7 +21,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42, stratify=y
 )
 
-# columns
+# categorical li chkl num
 numcateg_cols = [
     'Education',
     'EnvironmentSatisfaction',
@@ -70,7 +70,7 @@ for name, model in models.items():
     grid.fit(X_train, y_train)
     
     y_pred = grid.predict(X_test)
-    y_prob = grid.predict_proba(X_test)[:,1]  # for ROC
+    y_prob = grid.predict_proba(X_test)[:,1] 
     
     # output evaluation
     print(f"\nEvaluation - {name}")
@@ -90,4 +90,4 @@ for name, model in models.items():
     plt.show()
     
     # save model
-    joblib.dump(grid.best_estimator_, f"{name}_model.pkl")
+    # joblib.dump(grid.best_estimator_, f"{name}_model.pkl")
