@@ -1,4 +1,4 @@
-// Step navigation
+// step navigation
 let currentStep = 1;
 const totalSteps = 3;
 
@@ -13,13 +13,13 @@ document.getElementById("back2").addEventListener("click", () => { currentStep =
 document.getElementById("next2").addEventListener("click", () => { currentStep = 3; showStep(currentStep); });
 document.getElementById("back3").addEventListener("click", () => { currentStep = 2; showStep(currentStep); });
 
-// Logout button
+// logout button
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("token");
     window.location.href = "index.html";
 });
 
-// Predict Risk
+// predict Risk
 document.getElementById("predictBtn").addEventListener("click", async () => {
     const employeeData = {
         employee_id: document.getElementById("employee_id").value,
@@ -51,7 +51,7 @@ document.getElementById("predictBtn").addEventListener("click", async () => {
     if(!token){ alert("You are not logged in"); return; }
 
     try {
-        const res = await fetch("http://backend:8081/predict", {
+        const res = await fetch("http://localhost:8081/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +65,7 @@ document.getElementById("predictBtn").addEventListener("click", async () => {
 
         // If high risk, generate retention plan
         if(data.churn_probability > 0.5){
-            const retentionRes = await fetch("http://backend:8081/generate-retention-plan", {
+                const retentionRes = await fetch("http://localhost:8081/generate-retention-plan", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

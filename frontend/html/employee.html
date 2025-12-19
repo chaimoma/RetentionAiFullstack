@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>RetentionAI - Employee Risk</title>
-<link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <title>RetentionAI - Employee Risk</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+<div class="custom-header">
+    <div class="nav-left-group">
+        <button class="btn-nav-custom btn-home" onclick="location.href='dashboard.html'">Home</button>
+        <button class="btn-nav-custom btn-white" onclick="location.href='history.html'">Predict History</button>
+    </div>
+    <button id="logoutBtn" class="btn-nav-custom btn-white">Logout</button>
+</div>
+
 <div class="container">
     <h1>Employee Risk Analysis</h1>
-    <button id="logoutBtn" class="logoutBtn">Logout</button>
 
-    <!-- Step 1 -->
     <div id="step1" class="step">
         <h2>Step 1 - Basic Info</h2>
         <input type="text" id="employee_id" placeholder="Employee ID">
@@ -44,7 +51,6 @@
         </div>
     </div>
 
-    <!-- Step 2 -->
     <div id="step2" class="step" style="display:none;">
         <h2>Step 2 - Satisfaction & Involvement</h2>
         <label>Education:</label>
@@ -55,9 +61,7 @@
             <option value="4">4 - Master</option>
             <option value="5">5 - Doctor</option>
         </select>
-
         <input type="text" id="EducationField" placeholder="Education Field">
-
         <label>Environment Satisfaction:</label>
         <select id="EnvironmentSatisfaction">
             <option value="1">1 - Low</option>
@@ -65,7 +69,6 @@
             <option value="3">3 - High</option>
             <option value="4">4 - Very High</option>
         </select>
-
         <label>Job Involvement:</label>
         <select id="JobInvolvement">
             <option value="1">1 - Low</option>
@@ -73,10 +76,8 @@
             <option value="3">3 - High</option>
             <option value="4">4 - Very High</option>
         </select>
-
         <label>Job Level:</label>
         <input type="number" id="JobLevel" placeholder="Job Level">
-
         <label>Job Satisfaction:</label>
         <select id="JobSatisfaction">
             <option value="1">1 - Low</option>
@@ -84,7 +85,6 @@
             <option value="3">3 - High</option>
             <option value="4">4 - Very High</option>
         </select>
-
         <label>Performance Rating:</label>
         <select id="PerformanceRating">
             <option value="1">1 - Low</option>
@@ -92,7 +92,6 @@
             <option value="3">3 - Excellent</option>
             <option value="4">4 - Outstanding</option>
         </select>
-
         <label>Relationship Satisfaction:</label>
         <select id="RelationshipSatisfaction">
             <option value="1">1 - Low</option>
@@ -100,7 +99,6 @@
             <option value="3">3 - High</option>
             <option value="4">4 - Very High</option>
         </select>
-
         <label>Work-Life Balance:</label>
         <select id="WorkLifeBalance">
             <option value="1">1 - Bad</option>
@@ -108,14 +106,12 @@
             <option value="3">3 - Better</option>
             <option value="4">4 - Best</option>
         </select>
-
         <div class="buttons">
             <button id="back2">Back</button>
             <button id="next2">Next</button>
         </div>
     </div>
 
-    <!-- Step 3 -->
     <div id="step3" class="step" style="display:none;">
         <h2>Step 3 - Work Experience & Stock</h2>
         <input type="number" id="MonthlyIncome" placeholder="Monthly Income">
@@ -130,7 +126,6 @@
             <option value="2">2</option>
             <option value="3">3</option>
         </select>
-
         <div class="buttons">
             <button id="back3">Back</button>
             <button id="predictBtn">Predict Risk</button>
@@ -148,5 +143,11 @@
 <script src="../js/auth.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/employee.js"></script>
+<script>
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        removeToken();
+        window.location.href = "../index.html";
+    });
+</script>
 </body>
 </html>

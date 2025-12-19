@@ -1,90 +1,153 @@
+/* Global Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-  background-color: #f9f9f9;
+  background-color: #f4f7f6;
   color: #111;
+  line-height: 1.6;
 }
 
+/* --- THE NAVBAR --- */
+.custom-header {
+  display: flex !important;
+  justify-content: space-between !important; 
+  align-items: center !important;
+  padding: 10px 30px !important; 
+  background: #111 !important;
+  color: #fff !important;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-left-group {
+  display: flex !important;
+  gap: 15px !important; 
+}
+
+/* Button Styles */
+.btn-nav-custom {
+  width: auto !important;
+  padding: 8px 18px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  border: none !important;
+  transition: opacity 0.2s ease;
+}
+
+.btn-nav-custom:hover {
+  opacity: 0.8;
+}
+
+.btn-home { 
+  background-color: #2ecc71 !important; 
+  color: white !important; 
+}
+
+.btn-white { 
+  background-color: #ffffff !important; 
+  color: #111 !important; 
+}
+
+/* --- MAIN CONTAINER --- */
 .container {
-  max-width: 600px;
-  margin: 50px auto;
+  max-width: 700px;
+  margin: 40px auto;
   padding: 30px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-h1, h2 {
-  text-align: center;
+
+.container h1 {
   margin-bottom: 20px;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #111;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #333;
-}
-
-.alert {
-  color: #fff;
-  background: #e74c3c;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
   text-align: center;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background: #111;
-  color: #fff;
-}
-
-.navbar button {
-  width: auto;
-  background: #fff;
   color: #111;
 }
 
-.card {
-  padding: 15px;
-  margin: 10px 0;
-  border: 1px solid #111;
-  border-radius: 5px;
+.container h2 {
+  margin: 20px 0 15px 0;
+  font-size: 1.2rem;
+  color: #333;
+  border-left: 4px solid #2ecc71;
+  padding-left: 10px;
 }
 
-.badge {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 5px;
+.container label {
+  display: block;
+  margin-top: 10px;
   font-weight: bold;
-  color: #fff;
+  color: #444;
 }
 
-.badge.green { background: #2ecc71; }
-.badge.red { background: #e74c3c; }
+/* Form Elements */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #2ecc71;
+}
+
+/* Step Buttons */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+}
+
+#predictBtn {
+  background-color: #2ecc71;
+}
+
+/* History Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #555;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* Results Section */
+.result {
+  margin-top: 30px;
+  padding: 20px;
+  background: #e8f5e9;
+  border-radius: 8px;
+}

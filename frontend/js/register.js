@@ -11,7 +11,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
     }
 
     try {
-        const res = await fetch("http://backend:8081/register", {
+        const res = await fetch("http://localhost:8081/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })

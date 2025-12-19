@@ -32,6 +32,8 @@ services:
       - backend
     ports:
       - "5501:3001"
+    volumes:
+      - ./frontend:/app 
 
 volumes:
   db_data:

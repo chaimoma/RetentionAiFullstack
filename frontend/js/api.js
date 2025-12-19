@@ -1,4 +1,4 @@
-const BASE_URL = "http://backend:8081";
+const BASE_URL = "http://localhost:8081";
 
 async function login(username, password) {
     const res = await fetch(`${BASE_URL}/login`, {

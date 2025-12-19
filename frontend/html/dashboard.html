@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>RetentionAI Dashboard</title>
-<link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <title>RetentionAI Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+       
+        .container button {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="navbar">
-    <span>RetentionAI Dashboard</span>
-    <button id="logoutBtn">Logout</button>
+<div class="custom-header">
+    <div class="nav-left-group">
+        <button class="btn-nav-custom btn-white" onclick="location.href='dashboard.html'">Dashboard</button>
+    </div>
+    <button id="logoutBtn" class="btn-nav-custom btn-white">Logout</button>
 </div>
 
 <div class="container">
     <h2>Welcome HR Manager</h2>
+    
     <button onclick="location.href='employee.html'">Analyze Employee</button>
+    
+    <button onclick="location.href='history.html'" style="background-color: #555;">View History</button>
 </div>
 
 <script src="../js/auth.js"></script>
 <script>
-if(!isLoggedIn()) window.location.href = "index.html";
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    removeToken();
-    window.location.href = "index.html";
-});
+    // Security check
+    if(!isLoggedIn()) window.location.href = "index.html";
+
+    // Logout logic
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        removeToken();
+        window.location.href = "index.html";
+    });
 </script>
 </body>
 </html>

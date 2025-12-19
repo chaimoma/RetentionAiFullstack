@@ -160,3 +160,11 @@ Réponds uniquement au format JSON suivant :
         }
 
     return {"retention_plan": gem_data["retention_plan"]}
+
+@app.get("/prediction-history")
+def get_prediction_history(
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user) 
+):
+    history = db.query(PredictionHistory).filter(PredictionHistory.user_id == current_user.id).all()
+    return history
